@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PixelPad — Private Image Size Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;700&family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="hero">
+        <div class="hero__copy">
+          <p class="eyebrow">In-browser only • No uploads • Lossless-first</p>
+          <h1>PixelPad</h1>
+          <p class="lead">
+            Resize file size, not pixels. Compress for smaller exports or safely
+            increase weight with lossless re-encoding and metadata padding.
+          </p>
+        </div>
+        <div class="hero__stats">
+          <div class="stat">
+            <span class="stat__label">Supported</span>
+            <span class="stat__value">JPG · PNG · WEBP · PDF</span>
+          </div>
+          <div class="stat">
+            <span class="stat__label">Processing</span>
+            <span class="stat__value">100% on-device</span>
+          </div>
+          <div class="stat">
+            <span class="stat__label">Preview</span>
+            <span class="stat__value">Live, pixel-identical</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <section class="panel panel--upload">
+          <div class="upload-card" id="dropZone">
+            <input
+              id="fileInput"
+              type="file"
+              accept="image/jpeg,image/png,image/webp,application/pdf"
+            />
+            <div class="upload-card__content">
+              <h2>Drop an image here</h2>
+              <p>
+                Or browse your device. PixelPad never sends your file anywhere.
+              </p>
+              <button class="btn btn--ghost" id="browseBtn" type="button">
+                Browse Files
+              </button>
+            </div>
+            <div class="upload-card__meta">
+              <span id="fileName">No file selected</span>
+              <span id="fileSize">0 KB</span>
+            </div>
+          </div>
+
+          <div class="toggle-row">
+            <button class="tab is-active" data-mode="compress" type="button">
+              Compress
+            </button>
+            <button class="tab" data-mode="enlarge" type="button">
+              Enlarge Size
+            </button>
+          </div>
+
+          <div class="controls" id="compressControls">
+            <div class="control">
+              <label for="compressTargetSize">Target size</label>
+              <div class="target-row">
+                <input
+                  id="compressTargetSize"
+                  type="number"
+                  min="1"
+                  value="350"
+                />
+                <select id="compressTargetUnit">
+                  <option value="KB">KB</option>
+                  <option value="MB">MB</option>
+                </select>
+              </div>
+              <p class="hint">
+                The image stays pixel-identical while the encoder targets your
+                file size.
+              </p>
+            </div>
+          </div>
+
+          <div class="controls hidden" id="enlargeControls">
+            <div class="control">
+              <label for="targetSize">Target size</label>
+              <div class="target-row">
+                <input id="targetSize" type="number" min="1" value="450" />
+                <select id="targetUnit">
+                  <option value="KB">KB</option>
+                  <option value="MB">MB</option>
+                </select>
+              </div>
+              <p class="hint">
+                Uses lossless re-encoding and safe metadata padding. Pixels stay
+                identical to the original.
+              </p>
+            </div>
+          </div>
+
+          <div class="controls">
+            <div class="control">
+              <label for="outputFormat">Output format</label>
+              <div class="format-row">
+                <select id="outputFormat">
+                  <option value="original">Keep original</option>
+                  <option value="jpg">JPG</option>
+                  <option value="png">PNG</option>
+                  <option value="webp">WEBP</option>
+                  <option value="pdf">PDF</option>
+                </select>
+              </div>
+              <p class="hint">
+                Convert between formats or export as PDF in one step.
+              </p>
+            </div>
+          </div>
+
+          <button class="btn btn--primary" id="processBtn" type="button">
+            Process Image
+          </button>
+
+          <div class="alert" id="statusMessage" role="status"></div>
+        </section>
+
+        <section class="panel panel--preview">
+          <div class="preview-header">
+            <h2>Live Preview</h2>
+            <div class="badge">Pixel-perfect</div>
+          </div>
+          <div class="preview">
+            <div class="preview__pane">
+              <img id="originalPreview" alt="Original preview" />
+              <div class="preview__label">
+                <span>Original</span>
+                <span id="originalSizeLabel">0 KB</span>
+              </div>
+            </div>
+            <div class="preview__pane">
+              <img id="processedPreview" alt="Processed preview" />
+              <div class="preview__label">
+                <span>Processed</span>
+                <span id="processedSizeLabel">0 KB</span>
+              </div>
+            </div>
+          </div>
+          <div class="download-row">
+            <button class="btn btn--ghost" id="downloadBtn" type="button" disabled>
+              Download Output
+            </button>
+            <div class="size-delta" id="deltaLabel">Waiting for file</div>
+          </div>
+        </section>
+      </main>
+
+      <section class="panel panel--pdf">
+        <div class="preview-header">
+          <h2>PDF Studio</h2>
+          <div class="badge">Per-page export</div>
+        </div>
+        <div class="pdf-grid">
+          <div class="pdf-card">
+            <h3>Image → PDF</h3>
+            <p>Convert a single image into a one-page PDF.</p>
+            <div class="pdf-actions">
+              <input
+                id="pdfImageInput"
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+              />
+              <button class="btn btn--primary" id="imageToPdfBtn" type="button">
+                Create PDF
+              </button>
+            </div>
+            <div class="pdf-status" id="imageToPdfStatus">No file selected.</div>
+          </div>
+          <div class="pdf-card pdf-card--images">
+            <h3>PDF → Images</h3>
+            <p>Export each page as a PNG image.</p>
+            <div class="pdf-actions">
+              <input id="pdfInput" type="file" accept="application/pdf" />
+              <button class="btn btn--primary" id="pdfToImagesBtn" type="button">
+                Convert Pages
+              </button>
+            </div>
+            <div class="pdf-status" id="pdfToImagesStatus">
+              No PDF loaded.
+            </div>
+            <div class="pdf-thumbs" id="pdfThumbs"></div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div>
+          Built for speed and privacy. Files never leave your browser.
+        </div>
+      </footer>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
