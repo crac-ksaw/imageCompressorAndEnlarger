@@ -8,9 +8,12 @@ Resize file size, not pixels. PixelPad is a fast, privacy‑first web app that c
 - Enlarge to a target size using safe metadata padding.
 - Live before/after preview with size delta.
 - Convert between JPG / PNG / WEBP / PDF.
+<img width="1071" height="596" alt="image" src="https://github.com/user-attachments/assets/71fdf6ad-2ea7-46b3-8a14-eae22ee66bfe" />
+
 - PDF Studio:
   - Image → PDF (single page).
   - PDF → PNG (per‑page export).
+<img width="1097" height="353" alt="image" src="https://github.com/user-attachments/assets/e14aa4fb-e6b5-49e7-b3c8-e911cdd3b547" />
 
 ## How It Works
 - **Compression** targets your desired file size; if the target is too small, PixelPad returns the smallest safe result and warns you.
