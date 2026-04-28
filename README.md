@@ -2,6 +2,8 @@
 
 Resize file size, not pixels. PixelPad is a fast, privacy‑first web app that compresses or enlarges images in your browser, with live previews and safe metadata padding. It also includes a dedicated PDF Studio for image↔PDF workflows and per‑page PDF exports.
 
+[Live Preview](https://crac-ksaw.github.io/imageCompressorAndEnlarger/)
+
 ## Features
 - In‑browser processing (no uploads).
 - Compress to a target size (KB/MB) with visual parity.
